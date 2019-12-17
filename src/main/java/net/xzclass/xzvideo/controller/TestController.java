@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import net.xzclass.xzvideo.config.WeChatConfig;
 import net.xzclass.xzvideo.daoobj.VideoDaoObjBase;
 import net.xzclass.xzvideo.mapper.VideoMapper;
+import net.xzclass.xzvideo.model.JsonData;
 
 @RestController
 public class TestController {
@@ -21,14 +22,13 @@ public class TestController {
 	private VideoMapper videoMapper;
 	
 	@RequestMapping(value="/test", method=RequestMethod.GET)
-	public String test() {
-		System.out.println(wechatConfig.getAppid());
-		System.out.println(wechatConfig.getAppsecret());
-		return "hello,xzclass.net";
+	public JsonData test() {
+		return JsonData.buildSuccess(wechatConfig.getAppid());
 	}
 	
 	@RequestMapping(value="/videos", method=RequestMethod.GET)
-	public List<VideoDaoObjBase> findAllVideo() {
-		return videoMapper.findAll();
+	public JsonData findAllVideo() {
+		List<VideoDaoObjBase> videos = videoMapper.findAll();
+		return JsonData.buildSuccess(videos);
 	}
 }
